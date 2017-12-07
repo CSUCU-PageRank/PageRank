@@ -22,7 +22,7 @@ class ReadData:
 
     def make_matrix(self, lst):
         print(lst)
-        z = np.empty([len(lst), len(lst)])
+        z = np.zeros([len(lst), len(lst)])
         for i in range(len(lst)):
             links = lst[i].split()
             for number in range(1, len(links)):
