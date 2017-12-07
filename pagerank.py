@@ -14,7 +14,7 @@ def create_matrix(filename):
 
 # we have 3 webpages and probability of landing to each one is 1/3
 # (defaultProbability)
-M = create_matrix('data1.txt')
+M = create_matrix('data_inv.txt')
 sizem = (np.sqrt(M.size)).astype(np.int64)
 #print(sizem)
 dp = 1/sizem
@@ -25,26 +25,33 @@ E[:] = dp
 #print(E)
 
 # taxation
-beta = 0.7
+beta = 0.15
 
 # WWW matrix
-A = (1-beta * M) + ( beta * E)
+A = (beta * M) + ((1-beta) * E)
+#print(A)
 
 # initial vector
 r = np.matrix([dp]*sizem)
 #print(r)
 r = np.transpose(r)
+#print(r.sum())
 
 previous_r = r
 for it in range(1, 100):
-    r = A * r
-    print(float_format(r, 3))
+    #print(r/np.linalg.norm(r))
+    r = A * (r/r.sum())
+    #print(r.sum())
+    #print(float_format(r, 3))
     # check if converged
     if (previous_r == r).all():
         break
     previous_r = r
 
-summ = r.sum()
+
 print("Final:\n", float_format(r, 3))
-print("sum", np.round(summ), np.round(1.234567))
-print("%.2f" % summ)
+print("sum", np.round(r.sum()))
+ranks = [float(i[0][0]) for i in r]
+top_ten_ranks = list(reversed(sorted([(ranks[i], i) for i in range(len(ranks))])))[:10]
+
+print(len(top_ten_ranks))
