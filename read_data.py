@@ -21,7 +21,6 @@ class ReadData:
         return all_links
 
     def make_matrix(self, lst):
-        #print(lst)
         z = np.zeros([len(lst), len(lst)])
         for i in range(len(lst)):
             links = lst[i].split()
@@ -29,6 +28,3 @@ class ReadData:
                 if links[number] != '-1':
                     z[i][int(links[number])] = 1
         return z
-
-
-
