@@ -34,9 +34,3 @@ def create_top_ranks(matrix):
     ranks = [float(i[0][0]) for i in matrix]
     top_ten_ranks = list(reversed(sorted([(ranks[i], i) for i in range(len(ranks))])))[:10]
     return top_ten_ranks
-
-
-def output_data():
-    data = page_rank('data_inv.txt')
-    res = power_iteration(data[0], data[1])
-    return create_top_ranks(res)
