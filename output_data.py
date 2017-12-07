@@ -5,11 +5,11 @@ import matplotlib.pyplot as plt
 def output_data(info):
     data = page_rank(info)
     res = power_iteration(data[0], data[1])
-    return create_top_ranks(res)
+    return create_ranks(res)
 
 
 def create_chart(info):
-    lst = output_data(info)
+    lst = output_data(info)[1]
     plt.rcdefaults()
     objects = (lst[i][1] for i in range(len(lst)))
     y_pos = np.arange(10)
@@ -22,6 +22,15 @@ def create_chart(info):
     plt.show()
 
 
+def save_to_csv(info):
+    all_ranks = sorted(output_data(info)[0], key=lambda x: x[1])
+    with open('page_ranks.csv', 'w') as file:
+        file.write('\t\t' + "Contains ranks of all pages" + '\n')
+        for rank in all_ranks:
+            file.write('Page number: ' + str(rank[1]) + ', page rank:' + str(rank[0]) + '\n')
+
+
 data = 'data.txt'
 print(output_data(data))
 create_chart(data)
+save_to_csv(data)
