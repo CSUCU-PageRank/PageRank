@@ -1,4 +1,4 @@
 .idea/
 *.iml
 target/
-__pycache__/
+.__pycache__/
