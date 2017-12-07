@@ -21,7 +21,7 @@ class ReadData:
         return all_links
 
     def make_matrix(self, lst):
-        print(lst)
+        #print(lst)
         z = np.zeros([len(lst), len(lst)])
         for i in range(len(lst)):
             links = lst[i].split()
@@ -31,6 +31,4 @@ class ReadData:
         return z
 
 
-a = ReadData("data1.txt")
-file = a.open_file()
-print(a.make_matrix(file))
+
