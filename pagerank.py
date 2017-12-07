@@ -52,7 +52,7 @@ def power_iteration(matrix, vector):
     return vector
 
 
-def create_top_ranks(matrix):
+def create_ranks(matrix):
     '''
     Returns all acquired data and top ten most important pages
     :param matrix: matrix with final importance scores
