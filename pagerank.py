@@ -1,57 +1,42 @@
-# import some stuff
 import numpy as np
 import read_data as data
 
-
-# keep it clean and tidy
-def float_format(vector, decimal):
-    return np.round((vector).astype(np.float), decimals=decimal)
 
 def create_matrix(filename):
     a = data.ReadData(filename)
     file = a.open_file()
     return a.make_matrix(file)
 
-# we have 3 webpages and probability of landing to each one is 1/3
-# (defaultProbability)
-M = create_matrix('data_inv.txt')
-sizem = (np.sqrt(M.size)).astype(np.int64)
-#print(sizem)
-dp = 1/sizem
-#print(dp)
 
-E = np.zeros((sizem, sizem))
-E[:] = dp
-#print(E)
+def page_rank(filename, coeff=0.15):
+    init_ranks_matrix = create_matrix(filename)
+    matrix_size = (np.sqrt(init_ranks_matrix.size)).astype(np.int64)
+    std_importance = 1/matrix_size
+    si_matrix = np.zeros((matrix_size, matrix_size))
+    si_matrix[:] = std_importance
 
-# taxation
-beta = 0.15
-
-# WWW matrix
-A = (beta * M) + ((1-beta) * E)
-#print(A)
-
-# initial vector
-r = np.matrix([dp]*sizem)
-#print(r)
-r = np.transpose(r)
-#print(r.sum())
-
-previous_r = r
-for it in range(1, 100):
-    #print(r/np.linalg.norm(r))
-    r = A * (r/r.sum())
-    #print(r.sum())
-    #print(float_format(r, 3))
-    # check if converged
-    if (previous_r == r).all():
-        break
-    previous_r = r
+    upd_matrix = (coeff * init_ranks_matrix) + ((1-coeff) * si_matrix)
+    std_vector = np.transpose(np.matrix([std_importance]*matrix_size))
+    return upd_matrix, std_vector
 
 
-print("Final:\n", float_format(r, 3))
-print("sum", np.round(r.sum()))
-ranks = [float(i[0][0]) for i in r]
-top_ten_ranks = list(reversed(sorted([(ranks[i], i) for i in range(len(ranks))])))[:10]
+def power_iteration(matrix, vector):
+    previous_vector = vector
+    for it in range(1, 100):
+        vector = matrix * (vector/vector.sum())
+        if (previous_vector == vector).all():
+            break
+        previous_vector = vector
+    return vector
 
-print(len(top_ten_ranks))
+
+def create_top_ranks(matrix):
+    ranks = [float(i[0][0]) for i in matrix]
+    top_ten_ranks = list(reversed(sorted([(ranks[i], i) for i in range(len(ranks))])))[:10]
+    return top_ten_ranks
+
+
+def output_data():
+    data = page_rank('data_inv.txt')
+    res = power_iteration(data[0], data[1])
+    return create_top_ranks(res)
