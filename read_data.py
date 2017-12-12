@@ -5,7 +5,6 @@ class ReadData:
 
     def __init__(self, filename):
         """
-        Creates an empty list.
         :param filename: the name of a file.
         """
         self.filename = filename
@@ -21,6 +20,11 @@ class ReadData:
         return all_links
 
     def make_matrix(self, lst):
+        """
+        Makes a matrix with len(lst) * len(lst) size.
+        :param lst: a list with all the information from the file.
+        :return: a matrix.
+        """
         z = np.zeros([len(lst), len(lst)])
         for i in range(len(lst)):
             links = lst[i].split()

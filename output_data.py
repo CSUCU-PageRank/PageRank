@@ -9,6 +9,10 @@ def output_data(info):
 
 
 def create_chart(info):
+    """
+    Creates a chart with top 10 pages.
+    :param info: a tuple with all ranks, top ten ranks
+    """
     lst = output_data(info)[1]
     plt.rcdefaults()
     objects = (lst[i][1] for i in range(len(lst)))
@@ -23,6 +27,10 @@ def create_chart(info):
 
 
 def save_to_csv(info):
+    """
+    Saves all ranks to a csv file.
+    :param info: a tuple with all ranks, top ten ranks
+    """
     all_ranks = sorted(output_data(info)[0], key=lambda x: x[1])
     with open('page_ranks.csv', 'w') as file:
         file.write('\t\t' + "Contains ranks of all pages" + '\n')
